@@ -1,0 +1,12 @@
+C:\develop\csharp\Workbench\JsonFileDB\bin\Debug\net6.0\JsonDB.deps.json
+C:\develop\csharp\Workbench\JsonFileDB\bin\Debug\net6.0\JsonDB.dll
+C:\develop\csharp\Workbench\JsonFileDB\bin\Debug\net6.0\JsonDB.pdb
+C:\develop\csharp\Workbench\JsonFileDB\obj\Debug\net6.0\JsonDB.csproj.AssemblyReference.cache
+C:\develop\csharp\Workbench\JsonFileDB\obj\Debug\net6.0\JsonDB.GeneratedMSBuildEditorConfig.editorconfig
+C:\develop\csharp\Workbench\JsonFileDB\obj\Debug\net6.0\JsonDB.AssemblyInfoInputs.cache
+C:\develop\csharp\Workbench\JsonFileDB\obj\Debug\net6.0\JsonDB.AssemblyInfo.cs
+C:\develop\csharp\Workbench\JsonFileDB\obj\Debug\net6.0\JsonDB.csproj.CoreCompileInputs.cache
+C:\develop\csharp\Workbench\JsonFileDB\obj\Debug\net6.0\JsonDB.dll
+C:\develop\csharp\Workbench\JsonFileDB\obj\Debug\net6.0\refint\JsonDB.dll
+C:\develop\csharp\Workbench\JsonFileDB\obj\Debug\net6.0\JsonDB.pdb
+C:\develop\csharp\Workbench\JsonFileDB\obj\Debug\net6.0\ref\JsonDB.dll
