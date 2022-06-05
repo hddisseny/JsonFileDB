@@ -1,44 +1,41 @@
-﻿// TODO: Añadir Global using
+﻿// TODO: Añadir context layer
 // TODO: Añadir obtener Row por key
 // TODO: Añadir opción editar Row
 // TODO: Añadir opción eliminar Row
 // TODO: Escapar comillas en contenidos 
 // TODO: Quitar dependencía a Newtonsoft.Json
- 
-// Define Volume config
-string VolumesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.RelativeSearchPath ?? "");
-string VolumeName = "TestVolumen2.json";
-string VolumeSource = $"{VolumesPath}{VolumeName}";
 
-// New Volume
-JFDB VolumeTest = new JFDB(
-    new JDBVolume()
-    {
-        Name = VolumeName,
-        PathJson = VolumesPath,
-        VolumeSource = VolumeSource
-    },
-    new JDBTables());
+// Tables models
+User userEntity = new();
+
+// Define new Volume
+JFDB VolumeTest = new(
+    new JDBVolume("TestVolumen.json"),
+    new JDBTables()
+);
 
 // Create volume
 VolumeTest.CreateVolume();
 
-// Tables models
-User userEntity = new();
-Roles roles = new();
-
-// Add table roles to volume 
-VolumeTest.AddTable(roles);
-
+// Define new tables
+List<object> tables = new() { 
+    new User(),
+    new Roles(),
+    new Posts(),
+}; 
+ 
+// Create tables
+foreach (var table in tables)
+{
+    VolumeTest.AddTable(table);
+}
+   
 // Add registres to table
 Guid idRole = VolumeTest.Insert(new Roles()
 {
     Name = "Admin"
 });
-
-// Add table user to volume 
-VolumeTest.AddTable(userEntity);
- 
+  
 // Add registres to table
 VolumeTest.Insert(new User()
 {

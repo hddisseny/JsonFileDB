@@ -20,6 +20,13 @@ public class JDBVolume : IJFDBVolume
     /// </summary>
     public string VolumeSource { get; set; } = default!;
 
+    public JDBVolume(string name)
+    { 
+        Name = name;
+        PathJson = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.RelativeSearchPath ?? "");
+        VolumeSource = $"{PathJson}{name}"; 
+    }
+     
     /// <summary>
     /// Create the json file of the volume
     /// </summary>

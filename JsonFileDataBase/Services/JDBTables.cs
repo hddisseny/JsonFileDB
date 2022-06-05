@@ -4,7 +4,7 @@
 /// Table handler class
 /// </summary>
 public class JDBTables : IJFDBTables
-{ 
+{
     /// <summary>
     /// Add a table to a volume.
     /// Templates are MOCK classes that MUST contain 
