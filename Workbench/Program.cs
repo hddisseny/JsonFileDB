@@ -1,11 +1,13 @@
 ﻿using JsonFileDB.Service;
 using JsonFileDB.Volumes;
 
+// Define Volume config
 string VolumesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.RelativeSearchPath ?? "");
-string VolumeName = "TestVolumen.json";
+string VolumeName = "TestVolumen2.json";
 string VolumeSource = $"{VolumesPath}{VolumeName}";
 
-JDB TestJDB = new JDB(
+// New Volume
+JDB VolumeTest = new JDB(
     new JDBVolumes()
     {
         Name = VolumeName,
@@ -13,35 +15,32 @@ JDB TestJDB = new JDB(
         VolumeSource = VolumeSource
     });
 
-//TestJDB.Create();
+// Create volume
+VolumeTest.CreateVolume();
 
-//TestJDB.AddTable(new User());
-//TestJDB.AddTable(new Roles());
+VolumeTest.AddTable(new Roles());
+Guid idRole = VolumeTest.Insert(new Roles()
+{
+    Name = "Admin"
+});
 
-Console.WriteLine(
-    TestJDB.Insert(new User() {
-        Email = "test@test.com"
-    })
-);
-Console.WriteLine(
-   TestJDB.Insert(new User()
-   {
-       Email = "testw@test.com"
-   })
-);
+// Add tables to volume
+VolumeTest.AddTable(new User());
+VolumeTest.Insert(new User()
+{
+    Name = "David",
+    Email = "test@test.com",
+    IdRol = idRole
+});
+
  
-Console.WriteLine(
-    TestJDB.Insert(new Roles()
-    {
-        Name = "test2@test.com"
-    })
-);
 Console.ReadLine();
  
 public class User
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public int IdRol { get; set; } = default!;
+    public Guid IdRol { get; set; } = default!;
+    public string Name { get; set; } = default!;
     public string Email { get; set; } = default!;
     public string Password { get; set; } = default!;
 }

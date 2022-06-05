@@ -26,7 +26,7 @@ public class JDBTables
     /// <param name="volumen">Table container volume</param>
     /// <param name="table">Table model</param>
     /// <returns>bool</returns>
-    public static bool AddTable<T>(JDBVolumes volumen, T table) where T : new()
+    internal static bool AddTable<T>(JDBVolumes volumen, T table) where T : new()
     {
         try
         {
@@ -62,7 +62,7 @@ public class JDBTables
     /// <param name="table">Table model</param>
     /// <returns>Guid</returns>
     /// <exception cref="Exception">Empty volume</exception>
-    public static Guid Insert<T>(JDBVolumes volumen, T table) where T : new()
+    internal static Guid Insert<T>(JDBVolumes volumen, T table) where T : new()
     {
         // Load Json file
         string volumeJson = volumen.Load();
@@ -225,6 +225,4 @@ public class JDBTables
         
         return volumeRecord;
     }
-
-
 }

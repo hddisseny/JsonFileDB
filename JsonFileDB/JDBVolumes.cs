@@ -3,11 +3,24 @@ using System.Text;
 
 namespace JsonFileDB.Volumes;
 
+/// <summary>
+/// Volumes class
+/// </summary>
 public class JDBVolumes
-{
-    #region Volumenes  
+{    
+    /// <summary>
+    /// Volume path
+    /// </summary>
     public string? PathJson { get; set; } = default!;
+
+    /// <summary>
+    /// Volume name
+    /// </summary>
     public string Name { get; set; } = default!;
+
+    /// <summary>
+    /// Volume full path source
+    /// </summary>
     public string VolumeSource { get; set; } = default!;
     
     /// <summary>
@@ -49,6 +62,10 @@ public class JDBVolumes
         } 
     }
 
+    /// <summary>
+    /// Save volume to file
+    /// </summary>
+    /// <param name="recordToParse"></param>
     internal void Save(VolumeRecord recordToParse)
     { 
         using (var fs = new FileStream(VolumeSource, FileMode.Create))
@@ -58,6 +75,10 @@ public class JDBVolumes
         }
     }
 
+    /// <summary>
+    /// Load volume json file
+    /// </summary>
+    /// <returns></returns>
     internal string Load()
     {
         string fileContents;
@@ -68,8 +89,12 @@ public class JDBVolumes
         return fileContents;
     }
 
+    /// <summary>
+    /// Check if volume exist
+    /// </summary>
+    /// <param name="file">Volume file</param>
+    /// <returns>bool</returns>
     private static bool IfVolumeSourceExist(string file) 
         => File.Exists(file);
-
-    #endregion
+     
 }
