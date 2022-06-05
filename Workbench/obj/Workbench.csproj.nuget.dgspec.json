@@ -4,14 +4,14 @@
     "C:\\develop\\csharp\\Workbench\\Workbench\\Workbench.csproj": {}
   },
   "projects": {
-    "C:\\develop\\csharp\\Workbench\\JsonFileDB\\JsonDB.csproj": {
+    "C:\\develop\\csharp\\Workbench\\JsonFileDataBase\\JsonFileDataBase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\develop\\csharp\\Workbench\\JsonFileDB\\JsonDB.csproj",
-        "projectName": "JsonDB",
-        "projectPath": "C:\\develop\\csharp\\Workbench\\JsonFileDB\\JsonDB.csproj",
+        "projectUniqueName": "C:\\develop\\csharp\\Workbench\\JsonFileDataBase\\JsonFileDataBase.csproj",
+        "projectName": "JsonFileDataBase",
+        "projectPath": "C:\\develop\\csharp\\Workbench\\JsonFileDataBase\\JsonFileDataBase.csproj",
         "packagesPath": "C:\\Users\\usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\develop\\csharp\\Workbench\\JsonFileDB\\obj\\",
+        "outputPath": "C:\\develop\\csharp\\Workbench\\JsonFileDataBase\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,6 +44,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
@@ -96,8 +100,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\develop\\csharp\\Workbench\\JsonFileDB\\JsonDB.csproj": {
-                "projectPath": "C:\\develop\\csharp\\Workbench\\JsonFileDB\\JsonDB.csproj"
+              "C:\\develop\\csharp\\Workbench\\JsonFileDataBase\\JsonFileDataBase.csproj": {
+                "projectPath": "C:\\develop\\csharp\\Workbench\\JsonFileDataBase\\JsonFileDataBase.csproj"
               }
             }
           }
@@ -111,6 +115,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

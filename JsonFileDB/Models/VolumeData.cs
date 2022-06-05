@@ -1,4 +1,4 @@
-﻿namespace JsonFileDB.Volumes;
+﻿namespace JsonFileDB.Modules.Volumes;
 
 /// <summary>
 /// VolumeData model

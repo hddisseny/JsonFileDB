@@ -1,9 +1,7 @@
-﻿namespace JsonFileDB.Volumes;
-
-/// <summary>
+﻿/// <summary>
 /// VolumeRecord model
 /// </summary>
-public class VolumeRecord
+public class VolumeRecord  
 {
     /// <summary>
     /// VolumeRecord name

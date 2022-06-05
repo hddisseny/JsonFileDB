@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench", "Workbench\Workbench.csproj", "{45CC3212-4163-4E05-95D8-420F42A30A07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workbench", "Workbench\Workbench.csproj", "{45CC3212-4163-4E05-95D8-420F42A30A07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonDB", "JsonFileDB\JsonDB.csproj", "{12912649-CF8B-48FF-AEB3-6E7F5A5F0AA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonFileDataBase", "JsonFileDataBase\JsonFileDataBase.csproj", "{8B752C32-1DAA-40BF-A654-A9E776E23524}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{45CC3212-4163-4E05-95D8-420F42A30A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45CC3212-4163-4E05-95D8-420F42A30A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45CC3212-4163-4E05-95D8-420F42A30A07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12912649-CF8B-48FF-AEB3-6E7F5A5F0AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12912649-CF8B-48FF-AEB3-6E7F5A5F0AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12912649-CF8B-48FF-AEB3-6E7F5A5F0AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12912649-CF8B-48FF-AEB3-6E7F5A5F0AA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B752C32-1DAA-40BF-A654-A9E776E23524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B752C32-1DAA-40BF-A654-A9E776E23524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B752C32-1DAA-40BF-A654-A9E776E23524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B752C32-1DAA-40BF-A654-A9E776E23524}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

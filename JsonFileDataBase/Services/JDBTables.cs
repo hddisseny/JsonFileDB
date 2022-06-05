@@ -1,16 +1,10 @@
-﻿using JsonFileDB.Modules.Volumes;
-using JsonFileDB.Volumes;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Reflection; 
-
-namespace JsonFileDB.Tables;
+﻿namespace JsonFileDataBase.Services.Tables;
 
 /// <summary>
 /// Table handler class
 /// </summary>
-public class JDBTables
-{
+public class JDBTables : IJFDBTables
+{ 
     /// <summary>
     /// Add a table to a volume.
     /// Templates are MOCK classes that MUST contain 
@@ -27,12 +21,12 @@ public class JDBTables
     /// <param name="volumen">Table container volume</param>
     /// <param name="table">Table model</param>
     /// <returns>bool</returns>
-    internal static bool AddTable<T>(JDBVolume volumen, T table) where T : new()
+    public bool AddTable<T>(IJFDBVolume volumen, T table) where T : new()
     {
         try
         {
             // Load Json file
-            string volumeJson = volumen.Load(); 
+            string volumeJson = volumen.Load();
 
             if (string.IsNullOrEmpty(volumeJson))
                 throw new Exception("Volume empty");
@@ -45,14 +39,14 @@ public class JDBTables
 
             // Saves the volume file
             volumen.Save(GetVolumeData(_volumeRecord, _volumeBase));
-             
+
             return true;
         }
         catch (Exception ex)
-        { 
+        {
             Console.WriteLine(ex.ToString());
             return false;
-        }        
+        }
     }
 
     /// <summary>
@@ -63,11 +57,11 @@ public class JDBTables
     /// <param name="table">Table model</param>
     /// <returns>Guid</returns>
     /// <exception cref="Exception">Empty volume</exception>
-    internal static Guid Insert<T>(JDBVolume volumen, T table) where T : new()
+    public Guid Insert<T>(IJFDBVolume volumen, T table) where T : new()
     {
         // Load Json file
         string volumeJson = volumen.Load();
-        
+
         if (string.IsNullOrEmpty(volumeJson))
             throw new Exception("Volume empty");
 
@@ -92,7 +86,7 @@ public class JDBTables
             // If the name of the item being iterated matches the name of the item in the table
             // indicates that it is the record that should be modified.
             if (item.Table.Name.Equals(table.ToString()))
-            { 
+            {
                 item.Table.Rows.Add(table);
             }
         }
@@ -104,22 +98,30 @@ public class JDBTables
         return Guid.Parse(obj.ToString());
     }
 
-    internal static List<T> GetAll<T>(JDBVolume volumen, T table) where T : new()
+    /// <summary>
+    /// Get all rows from table selected
+    /// </summary>
+    /// <typeparam name="T">Generic class defining the table to be inserted</typeparam>
+    /// <param name="volumen">Table container volume</param>
+    /// <param name="table">Table model</param>
+    /// <returns>List<T></returns>
+    /// <exception cref="Exception">Volume empty</exception>
+    public List<T> GetAll<T>(IJFDBVolume volumen, T table) where T : new()
     {
         // Load Json file
         string volumeJson = volumen.Load();
 
         if (string.IsNullOrEmpty(volumeJson))
             throw new Exception("Volume empty");
-        
+
         // Creates an instance of the volume
         VolumeRecord _volumeRecord = JsonConvert.DeserializeObject<VolumeRecord>(volumeJson);
 
         List<T> list = new();
-       
+
         foreach (var item in _volumeRecord.VolumeData)
         {
-                
+
             if (item.Table.Name.Equals(table.ToString()))
             {
                 if (item.Table.Rows is not null)
@@ -127,11 +129,11 @@ public class JDBTables
                     foreach (var Row in item.Table.Rows)
                     {
                         list.Add(((JObject)Row).ToObject<T>());
-                    } 
+                    }
                 }
             }
-        }    
-         
+        }
+
         return list;
     }
 
@@ -141,7 +143,7 @@ public class JDBTables
     /// <typeparam name="T">Generic class defining the table to be inserted</typeparam>
     /// <param name="table">Table model</param>
     /// <returns>VolumeBase</returns>
-    private static VolumeBase GetVolumeBase<T>(T table) where T : new()
+    private VolumeBase GetVolumeBase<T>(T table) where T : new()
     {
         // Instantiate a new volume
         VolumeBase _volumeBase = new();
@@ -162,7 +164,7 @@ public class JDBTables
     /// <typeparam name="T">Generic class defining the table to be inserted</typeparam>
     /// <param name="table">Table model</param>
     /// <returns>List<string></returns>
-    private static List<string> GetTableSchemaNames<T>(T table) where T : new()
+    private List<string> GetTableSchemaNames<T>(T table) where T : new()
     {
         // Gets all the properties of the table class passed as parameter
         Dictionary<string, List<string>> tablePropertiesNames = ConvertToSchema(table);
@@ -186,7 +188,7 @@ public class JDBTables
     /// <typeparam name="T">Generic class defining the table to be inserted</typeparam>
     /// <param name="table">Table model</param>
     /// <returns>Dictionary<string, List<string>></returns>
-    private static Dictionary<string, List<string>> ConvertToSchema<T>(T tables) where T : new()
+    private Dictionary<string, List<string>> ConvertToSchema<T>(T tables) where T : new()
     {
         // Creates a list to concatenate properties and fields
         List<string> output = new();
@@ -241,7 +243,7 @@ public class JDBTables
     /// <param name="volumeRecord">VolumeRecord instance</param>
     /// <param name="volumeBase">VolumeBase instance</param>
     /// <returns>VolumeRecord</returns>
-    private static VolumeRecord GetVolumeData(VolumeRecord volumeRecord, VolumeBase volumeBase)
+    private VolumeRecord GetVolumeData(VolumeRecord volumeRecord, VolumeBase volumeBase)
     {
         // Instantiate a new data model for a volume
         VolumeData _volumeData = new();
@@ -254,7 +256,7 @@ public class JDBTables
 
         // Adds the data volume to the volume model
         volumeRecord.VolumeData.Add(_volumeData);
-        
+
         return volumeRecord;
     }
 }

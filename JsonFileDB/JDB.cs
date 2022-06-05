@@ -11,13 +11,13 @@ public class JDB
     /// <summary>
     /// JDBVolumes instance
     /// </summary>
-    private readonly JDBVolumes _volumen;
+    private readonly JDBVolume _volumen;
 
     /// <summary>
     /// Construct on instanciate workflow, setup private JDBVolumes instance
     /// </summary>
     /// <param name="volumen">Volumen config</param>
-    public JDB(JDBVolumes volumen) 
+    public JDB(JDBVolume volumen) 
         => _volumen = volumen; 
 
     /// <summary>
@@ -43,6 +43,11 @@ public class JDB
     /// <returns>Guid</returns>
     public Guid Insert<T>(T table) where T : new()
         => JDBTables.Insert(_volumen, table);
+
+
+    public List<T> GetAll<T>(T table) where T : new()
+       => JDBTables.GetAll(_volumen, table);
+
 }
 
  

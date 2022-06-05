@@ -1,10 +1,8 @@
-﻿namespace JsonFileDB.Volumes;
-
-/// <summary>
+﻿/// <summary>
 /// VolumenBase model
 /// </summary>
 public class VolumeBase
-{
+{ 
     /// <summary>
     /// VolumeBase name
     /// </summary>

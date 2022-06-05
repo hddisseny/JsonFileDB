@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
+using JsonFileDB.Modules.Volumes;
 
 namespace JsonFileDB.Volumes;
 
 /// <summary>
 /// Volumes class
 /// </summary>
-public class JDBVolumes
+public class JDBVolume
 {    
     /// <summary>
     /// Volume path

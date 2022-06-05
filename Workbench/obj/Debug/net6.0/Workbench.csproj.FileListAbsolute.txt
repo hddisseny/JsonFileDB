@@ -14,6 +14,8 @@ C:\develop\csharp\Workbench\Workbench\obj\Debug\net6.0\Workbench.pdb
 C:\develop\csharp\Workbench\Workbench\obj\Debug\net6.0\Workbench.genruntimeconfig.cache
 C:\develop\csharp\Workbench\Workbench\obj\Debug\net6.0\ref\Workbench.dll
 C:\develop\csharp\Workbench\Workbench\obj\Debug\net6.0\Workbench.csproj.CopyComplete
-C:\develop\csharp\Workbench\Workbench\bin\Debug\net6.0\JsonDB.dll
-C:\develop\csharp\Workbench\Workbench\bin\Debug\net6.0\JsonDB.pdb
 C:\develop\csharp\Workbench\Workbench\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\develop\csharp\Workbench\Workbench\bin\Debug\net6.0\JsonFileDataBase.dll
+C:\develop\csharp\Workbench\Workbench\bin\Debug\net6.0\JsonFileDataBase.pdb
+C:\develop\csharp\Workbench\Workbench\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\develop\csharp\Workbench\Workbench\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll

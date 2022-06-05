@@ -1,39 +1,67 @@
-﻿using JsonFileDB.Service;
-using JsonFileDB.Volumes;
-
+﻿// TODO: Añadir Global using
+// TODO: Añadir obtener Row por key
+// TODO: Añadir opción editar Row
+// TODO: Añadir opción eliminar Row
+// TODO: Escapar comillas en contenidos 
+// TODO: Quitar dependencía a Newtonsoft.Json
+ 
 // Define Volume config
 string VolumesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.RelativeSearchPath ?? "");
 string VolumeName = "TestVolumen2.json";
 string VolumeSource = $"{VolumesPath}{VolumeName}";
 
 // New Volume
-JDB VolumeTest = new JDB(
-    new JDBVolumes()
+JFDB VolumeTest = new JFDB(
+    new JDBVolume()
     {
         Name = VolumeName,
         PathJson = VolumesPath,
         VolumeSource = VolumeSource
-    });
+    },
+    new JDBTables());
 
 // Create volume
 VolumeTest.CreateVolume();
 
-VolumeTest.AddTable(new Roles());
+// Tables models
+User userEntity = new();
+Roles roles = new();
+
+// Add table roles to volume 
+VolumeTest.AddTable(roles);
+
+// Add registres to table
 Guid idRole = VolumeTest.Insert(new Roles()
 {
     Name = "Admin"
 });
 
-// Add tables to volume
-VolumeTest.AddTable(new User());
+// Add table user to volume 
+VolumeTest.AddTable(userEntity);
+ 
+// Add registres to table
 VolumeTest.Insert(new User()
 {
     Name = "David",
-    Email = "test@test.com",
-    IdRol = idRole
+    Email = "Pepe@test.com",
+    IdRol = idRole,
 });
-
  
+VolumeTest.Insert(new User()
+{
+    Name = "Pepe",
+    Email = "Pepe@test.com",
+    IdRol = idRole,
+});
+  
+foreach(User users in VolumeTest.GetAll(userEntity))
+{
+    Console.WriteLine($"Id: {users.Id}");
+    Console.WriteLine($"IdRol: {users.IdRol}");
+    Console.WriteLine($"Name: {users.Name}");
+    Console.WriteLine($"Email: {users.Email}\r\n");
+}
+
 Console.ReadLine();
  
 public class User
