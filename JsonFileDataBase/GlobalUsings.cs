@@ -4,7 +4,7 @@ global using System.Reflection;
 
 // Own project
 global using JsonFileDataBase.Services.Tables;
-global using JsonFileDataBase.Services.Volumes; 
+global using JsonFileDataBase.Services.Volumes;
 
 // Dependencies
 global using Newtonsoft.Json;

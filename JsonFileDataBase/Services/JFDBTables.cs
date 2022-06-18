@@ -3,7 +3,7 @@
 /// <summary>
 /// Table handler class
 /// </summary>
-public class JDBTables : IJFDBTables
+public class JFDBTables 
 {
     /// <summary>
     /// Add a table to a volume.
@@ -21,7 +21,7 @@ public class JDBTables : IJFDBTables
     /// <param name="volumen">Table container volume</param>
     /// <param name="table">Table model</param>
     /// <returns>bool</returns>
-    public bool AddTable<T>(IJFDBVolume volumen, T table) where T : new()
+    internal static bool AddTable<T>(IJFDBVolume volumen, T table) where T : new()
     {
         try
         {
@@ -50,32 +50,37 @@ public class JDBTables : IJFDBTables
     }
 
     /// <summary>
-    /// Inserts a new entry in a table
+    /// Inserts a new entry in a table. 
+    /// If there is a property named Id and it is also of type Guid
+    /// then it collects the Guid from the table and returns it as a result.
     /// </summary>
     /// <typeparam name="T">Generic class defining the table to be inserted</typeparam>
     /// <param name="volumen">Table container volume</param>
     /// <param name="table">Table model</param>
     /// <returns>Guid</returns>
     /// <exception cref="Exception">Empty volume</exception>
-    public Guid Insert<T>(IJFDBVolume volumen, T table) where T : new()
+    internal static Guid Insert<T>(IJFDBVolume volumen, T table) where T : new()
     {
         // Load Json file
         string volumeJson = volumen.Load();
+        Guid outputGuid = Guid.Empty;
 
         if (string.IsNullOrEmpty(volumeJson))
             throw new Exception("Volume empty");
 
-        // Gets the type of the table
-        Type type = table.GetType();
-
         // This makes that all tables MUST have a Guid Id field
         // and it is a dependency that should not exist
 
-        // Gets the type of the Id property of the generic instance
-        PropertyInfo info = type.GetProperty("Id");
+        // Gets the type of the table
+        Type type = table.GetType();
 
-        // Collects the value of the property 
-        var obj = info.GetValue(table, null);
+        // Gets the type of the Id property of the generic instance if exist
+        PropertyInfo info = type.GetProperty("Id");  
+        if (info is not null && info.PropertyType == typeof(Guid))
+        {
+            var obj = info.GetValue(table, null);
+            outputGuid = Guid.Parse(obj.ToString());
+        }
 
         // Creates an instance of the volume
         VolumeRecord _volumeRecord = JsonConvert.DeserializeObject<VolumeRecord>(volumeJson);
@@ -94,8 +99,58 @@ public class JDBTables : IJFDBTables
         // Save volume
         volumen.Save(_volumeRecord);
 
-        // Returns the Guid that has been inserted
-        return Guid.Parse(obj.ToString());
+        // Returns the Guid that has been inserted 
+        return outputGuid;
+    }
+
+    internal static List<TOutput> Get<TOutput,U>(IJFDBVolume volume,string tableColumn, U term, TOutput table) where TOutput : new()
+    {
+        // Load Json file
+        string volumeJson = volume.Load();
+
+        if (string.IsNullOrEmpty(volumeJson))
+            throw new Exception("Volume empty");
+
+        // Instantiate an object from the generic class
+        TOutput tableInstance = new();
+         
+        // Creates an instance of the volume
+        VolumeRecord _volumeRecord = JsonConvert.DeserializeObject<VolumeRecord>(volumeJson);
+
+        // Get type off table instance
+        Type tableInstanceType = tableInstance.GetType();
+               
+        // Table name to search
+        string tableNameToSearch = tableInstanceType.Name;
+         
+        // Term to search
+        string termSearch = term.ToString();
+
+        // Volume selected by table name
+        List<VolumeData> volumesByTableName = _volumeRecord.VolumeData.Where(o=> o.Table.Name == tableNameToSearch ).ToList();
+
+        // Rows from volume
+        List<object> volumeSelectedRows = volumesByTableName.First().Table.Rows;
+
+        // Result list ouput
+        List<TOutput> ouputResultsList = new();
+
+        // Iterate throug rows
+        foreach (var selectedRow in volumeSelectedRows)
+        { 
+            JObject row = (JObject)selectedRow; 
+            JToken tokenRow= row.SelectToken($"$..{tableColumn}");
+
+            if (tokenRow is not null && !row.Equals(""))
+            {
+                if (tokenRow.ToString().Equals(term.ToString()))
+                {
+                    ouputResultsList.Add(row.ToObject<TOutput>());
+                }
+            } 
+        }
+
+        return ouputResultsList; 
     }
 
     /// <summary>
@@ -106,7 +161,7 @@ public class JDBTables : IJFDBTables
     /// <param name="table">Table model</param>
     /// <returns>List<T></returns>
     /// <exception cref="Exception">Volume empty</exception>
-    public List<T> GetAll<T>(IJFDBVolume volumen, T table) where T : new()
+    internal static List<T> GetAll<T>(IJFDBVolume volumen, T table) where T : new()
     {
         // Load Json file
         string volumeJson = volumen.Load();
@@ -143,7 +198,7 @@ public class JDBTables : IJFDBTables
     /// <typeparam name="T">Generic class defining the table to be inserted</typeparam>
     /// <param name="table">Table model</param>
     /// <returns>VolumeBase</returns>
-    private VolumeBase GetVolumeBase<T>(T table) where T : new()
+    private static VolumeBase GetVolumeBase<T>(T table) where T : new()
     {
         // Instantiate a new volume
         VolumeBase _volumeBase = new();
@@ -164,7 +219,7 @@ public class JDBTables : IJFDBTables
     /// <typeparam name="T">Generic class defining the table to be inserted</typeparam>
     /// <param name="table">Table model</param>
     /// <returns>List<string></returns>
-    private List<string> GetTableSchemaNames<T>(T table) where T : new()
+    private static List<string> GetTableSchemaNames<T>(T table) where T : new()
     {
         // Gets all the properties of the table class passed as parameter
         Dictionary<string, List<string>> tablePropertiesNames = ConvertToSchema(table);
@@ -188,7 +243,7 @@ public class JDBTables : IJFDBTables
     /// <typeparam name="T">Generic class defining the table to be inserted</typeparam>
     /// <param name="table">Table model</param>
     /// <returns>Dictionary<string, List<string>></returns>
-    private Dictionary<string, List<string>> ConvertToSchema<T>(T tables) where T : new()
+    private static Dictionary<string, List<string>> ConvertToSchema<T>(T tables) where T : new()
     {
         // Creates a list to concatenate properties and fields
         List<string> output = new();
@@ -243,7 +298,7 @@ public class JDBTables : IJFDBTables
     /// <param name="volumeRecord">VolumeRecord instance</param>
     /// <param name="volumeBase">VolumeBase instance</param>
     /// <returns>VolumeRecord</returns>
-    private VolumeRecord GetVolumeData(VolumeRecord volumeRecord, VolumeBase volumeBase)
+    private static VolumeRecord GetVolumeData(VolumeRecord volumeRecord, VolumeBase volumeBase)
     {
         // Instantiate a new data model for a volume
         VolumeData _volumeData = new();

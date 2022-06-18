@@ -1,5 +1,4 @@
-﻿
-namespace JsonFileDataBase;
+﻿namespace JsonFileDataBase;
 
 /// <summary>
 /// Main workflow class
@@ -12,26 +11,30 @@ public class JFDB
     private readonly IJFDBVolume _volumen;
 
     /// <summary>
-    /// IJFDBTables inyect instance
-    /// </summary>
-    private readonly IJFDBTables _table;
-
-    /// <summary>
     /// Construct on instanciate workflow, setup inyect IJDBVolumes and IJDBTables instance
     /// </summary>
-    /// <param name="volumen">Volumen config</param>
-    public JFDB(IJFDBVolume volumen, IJFDBTables table)
+    /// <param name="volume">Volume config</param>
+    public JFDB(IJFDBVolume volume)
     { 
-        _volumen = volumen;
-        _table = table;
+        _volumen = volume;
+        _volumen.Create();
     }
-        
+    
     /// <summary>
-    /// Create volume
+    /// Override constructor with table models list to create
     /// </summary>
-    public void CreateVolume() 
-        =>  _volumen.Create();
-     
+    /// <param name="volume">Volume config</param>
+    /// <param name="lstTableContext">List with table models</param>
+    public JFDB(IJFDBVolume volume, List<object> lstTableContext)
+    {
+        _volumen = volume;
+        _volumen.Create();
+        if(lstTableContext is not null)
+        {
+            lstTableContext.ForEach(t => AddTable(t));
+        }
+    }
+
     /// <summary>
     /// Add table to volume
     /// </summary>
@@ -39,7 +42,7 @@ public class JFDB
     /// <param name="table">Table model</param>
     /// <returns>bool</returns>
     public bool AddTable<T>(T tables) where T : new()
-        => _table.AddTable(_volumen, tables);
+        => JFDBTables.AddTable(_volumen, tables);
             
     /// <summary>
     /// Insert a entry in a table 
@@ -48,7 +51,12 @@ public class JFDB
     /// <param name="table">Table model</param>
     /// <returns>Guid</returns>
     public Guid Insert<T>(T table) where T : new()
-        => _table.Insert(_volumen, table);
+        => JFDBTables.Insert(_volumen, table);
+
+    public List<TOutput> Get<TOutput, U>(string column, U term, TOutput table) where TOutput : new()
+    {
+        return JFDBTables.Get(_volumen, column, term, table);
+    }
 
     /// <summary>
     /// Get all results from table 
@@ -57,7 +65,7 @@ public class JFDB
     /// <param name="table">Table model</param>
     /// <returns></returns>
     public List<T> GetAll<T>(T table) where T : new()
-        => _table.GetAll(_volumen, table);
+        => JFDBTables.GetAll(_volumen, table);
     
 }
 
